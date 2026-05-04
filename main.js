@@ -25,7 +25,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
-const tanamanCollection = collection(db, "tanaman")
+const bukuCollection = collection(db, "buku")
 
 // fungsi untuk login
 export async function login() {
@@ -69,4 +69,98 @@ export function logout() {
 
     // redirect ke halaman login
     window.location.href = "login.html"
+}
+
+//fungsi untuk menampilkan daftar buku
+export async function daftarBuku() {
+
+    // ambil snapshot data dari koleksi buku
+    const snapshot = await getDocs(bukuCollection)
+
+    // ambil elemen tabel data
+    const tabel = document.getElementById('tabelData')
+
+    // kosongkan isi tabel nya
+    tabel.innerHTML = ""
+
+    // loop setiap dokumen dalam snapshot
+    snapshot.forEach((doc) => {
+        // variabel untuk menyimpan data
+        const data = doc.data()
+        const id = doc.id
+
+        // buat elemen baris baru
+        const baris = document.createElement("tr")
+
+        // buat elemen kolom untuk nomor urut
+        const nomorUrut = document.createElement("td")
+        nomorUrut.textContent = tabel.rows.length + 1
+
+        // buat elemen kolom untuk judul buku
+        const judulBuku = document.createElement("td")
+        judulBuku.textContent = data.judulBuku
+
+        // buat elemen untuk kolom penulis
+        const penulis = document.createElement("td")
+        penulis.textContent = data.penulis
+
+        // buat elemen untuk kolom penerbit
+        const penerbit = document.createElement("td")
+        penerbit.textContent = data.penerbit
+
+        // buat elemen kolom untuk aksi
+        const kolomAksi = document.createElement('td')
+
+        // tombol edit
+        const tombolEdit = document.createElement('a')
+        tombolEdit.textContent = 'Edit'
+        tombolEdit.href = 'edit.html?id=' + id
+        tombolEdit.className = 'button edit'
+
+        // tombol hapus
+        const tombolHapus = document.createElement('button')
+        tombolHapus.textContent = 'Hapus'
+        tombolHapus.className = 'button delete'
+        tombolHapus.onclick = async () => {
+            await hapusBuku(id)
+        }
+
+        // tambahkan elemen ke dalam kolom aksi
+        kolomAksi.appendChild(tombolEdit)
+        kolomAksi.appendChild(tombolHapus)
+
+        // tambahkan kolom ke dalam baris
+        baris.appendChild(nomorUrut)
+        baris.appendChild(judulBuku)
+        baris.appendChild(penulis)
+        baris.appendChild(penerbit)
+        baris.appendChild(kolomAksi)
+
+        // tambahkan baris ke dalam tabel
+        tabel.appendChild(baris)
+
+    })
+}
+
+// fungsi untuk menambahkan buku baru
+export async function tambahBuku() {
+    // ambil nilai dari form
+    const judulBuku = document.getElementById('judulBuku').value
+    const penulis = document.getElementById('penulis').value
+    const penerbit = document.getElementById('penerbit').value
+
+    // tambahkan data ke firestore
+    await addDoc(bukuCollection, {
+        judulBuku: judulBuku,
+        penulis: penulis,
+        penerbit: penerbit,
+    })
+
+    // alihkan ke halaman daftar buku
+    window.location.href = 'admin.html'
+}
+
+// fungsi untuk menampilkan daftar buku secara publik
+export async function daftarBukuPublik() {
+
 }

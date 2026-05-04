@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tambah Buku</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Form Tambah Buku</h1>
+
+      <form id="formTambah">
+        <label>Judul Buku</label>
+        <input type="text" id="judulBuku" />
+
+        <label>Penulis</label>
+        <input type="text" id="penulis" />
+
+        <label>Penerbit</label>
+        <input type="text" id="penerbit" />
+
+        <button id="tombolSimpan" type="submit" class="btn">Simpan</button>
+      </form>
+
+      <a href="admin.html">Daftar Buku</a>
+    </div>
+
+    <script src="auth.js"></script>
+    <script type="module">
+      import { tambahBuku } from './main.js'
+      // mengirimkan data buku dari form
+      const formTambah = document.getElementById('formTambah')
+
+      // event ketika form disubmit (dikirim)
+      formTambah.addEventListener('submit', function (e) {
+        // mencegah reload halaman
+        e.preventDefault()
+
+        // eksekusi fungsi tambah data buku
+        tambahBuku()
+      })
+    </script>
+  </body>
+</html>

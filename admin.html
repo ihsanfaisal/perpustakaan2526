@@ -10,19 +10,38 @@
   <body>
     <h1>Admin Perpustakaan</h1>
 
-    <a href="#" class="btn" id="logout">keluar</a>
+    <h2>Daftar Buku</h2>
 
-    <p>CRUD Buku di sini</p>
+    <div class="container">
+      <a href="tambah.html" class="button">Tambah Buku</a>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Judul Buku</th>
+            <th>Penulis</th>
+            <th>Penerbit</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelData"></tbody>
+      </table>
+    </div>
+
+    <a href="#" class="btn" id="logout">keluar</a>
 
     <script src="auth.js"></script>
     <script type="module">
-      import { logout } from './main.js'
+      import { logout, daftarBuku } from './main.js'
 
       const logoutLink = document.getElementById('logout')
       logoutLink.addEventListener('click', (e) => {
         e.preventDefault()
         logout()
       })
+
+      // Tampilkan daftar buku saat halaman dimuat
+      daftarBuku()
     </script>
   </body>
 </html>
