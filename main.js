@@ -235,3 +235,56 @@ export async function pinjamBuku(idBuku, judulBuku) {
         }
     }
 }
+
+// fungsi untuk menampilkan daftar peminjaman di halaman admin
+export async function daftarPeminjaman() {
+    // Ambil snapshot data dari koleksi peminjaman
+    const peminjamanCollection = collection(db, "peminjaman")
+    const snapshot = await getDocs(peminjamanCollection)
+
+    // Ambil elemen tbody untuk tabel peminjaman
+    const tabel = document.getElementById('tabelPeminjaman')
+
+    // Pastikan elemennya ada di HTML sebelum memproses
+    if (!tabel) return
+
+    // Kosongkan isi tabel terlebih dahulu
+    tabel.innerHTML = ""
+
+    // Loop setiap dokumen dalam snapshot peminjaman
+    snapshot.forEach((doc) => {
+        const data = doc.data()
+
+        // Buat elemen baris baru
+        const baris = document.createElement("tr")
+
+        // Kolom 1: Nomor Urut
+        const nomorUrut = document.createElement("td")
+        nomorUrut.textContent = tabel.rows.length + 1
+
+        // Kolom 2: Judul Buku
+        const judulBuku = document.createElement("td")
+        judulBuku.textContent = data.judulBuku
+
+        // Kolom 3: Tanggal Pinjam
+        const tanggalPinjam = document.createElement("td")
+        tanggalPinjam.textContent = data.tanggalPinjam || "-"
+
+        // Kolom 4: Status Peminjaman
+        const status = document.createElement("td")
+        status.textContent = data.status || "Dipinjam"
+
+        // Opsional: memberi style/warna text berdasarkan status
+        status.style.fontWeight = "bold"
+        status.style.color = data.status === "Kembali" ? "green" : "orange"
+
+        // Masukkan kolom-kolom ke dalam baris
+        baris.appendChild(nomorUrut)
+        baris.appendChild(judulBuku)
+        baris.appendChild(tanggalPinjam)
+        baris.appendChild(status)
+
+        // Masukkan baris ke dalam tabel
+        tabel.appendChild(baris)
+    })
+}

@@ -28,11 +28,26 @@
       </table>
     </div>
 
+    <h2>Daftar Peminjaman Buku</h2>
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Judul Buku</th>
+            <th>Tanggal Pinjam</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tabelPeminjaman"></tbody>
+      </table>
+    </div>
+
     <a href="#" class="btn" id="logout">keluar</a>
 
     <script src="auth.js"></script>
     <script type="module">
-      import { logout, daftarBuku } from './main.js'
+      import { logout, daftarBuku, daftarPeminjaman } from './main.js'
 
       const logoutLink = document.getElementById('logout')
       logoutLink.addEventListener('click', (e) => {
@@ -42,6 +57,7 @@
 
       // Tampilkan daftar buku saat halaman dimuat
       daftarBuku()
+      daftarPeminjaman()
     </script>
   </body>
 </html>
