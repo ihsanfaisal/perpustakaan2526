@@ -189,9 +189,15 @@ export async function daftarBukuPublik() {
         const penulis = document.createElement("p")
         penulis.textContent = "Penulis: " + data.penulis
 
-        // tambahkan elemen judul dan penulis ke dalam kartu
+        // buat elemen tombol pinjam
+        const tombolPinjam = document.createElement("button")
+        tombolPinjam.textContent = "Pinjam"
+        tombolPinjam.className = "btn"
+
+        // tambahkan elemen judul, penulis, dan tombol pinjam ke dalam kartu
         kartu.appendChild(judulBuku)
         kartu.appendChild(penulis)
+        kartu.appendChild(tombolPinjam)
 
         // tambahkan kartu ke dalam container
         container.appendChild(kartu)
