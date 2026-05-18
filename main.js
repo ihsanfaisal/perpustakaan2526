@@ -26,6 +26,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const bukuCollection = collection(db, "buku")
+const peminjamanCollection = collection(db, "peminjaman")
 
 // fungsi untuk login
 export async function login() {
@@ -193,6 +194,10 @@ export async function daftarBukuPublik() {
         const tombolPinjam = document.createElement("button")
         tombolPinjam.textContent = "Pinjam"
         tombolPinjam.className = "btn"
+        tombolPinjam.onclick = async () => {
+            tombolPinjam.disabled = true
+            await pinjamBuku(id, data.judulBuku)
+        }
 
         // tambahkan elemen judul, penulis, dan tombol pinjam ke dalam kartu
         kartu.appendChild(judulBuku)
@@ -202,4 +207,31 @@ export async function daftarBukuPublik() {
         // tambahkan kartu ke dalam container
         container.appendChild(kartu)
     })
+}
+
+// fungsi untuk melakukan peminjaman langsung
+export async function pinjamBuku(idBuku, judulBuku) {
+    // Konfirmasi ke user (opsional, biar lebih interaktif)
+    const konfirmasi = confirm(`Apakah Anda yakin ingin meminjam buku "${judulBuku}"?`)
+
+    if (konfirmasi) {
+        try {
+            // Catat data peminjaman ke Firestore
+            await addDoc(peminjamanCollection, {
+                idBuku: idBuku,
+                judulBuku: judulBuku,
+                tanggalPinjam: new Date().toLocaleDateString('id-ID'), // Tanggal hari ini
+                status: "Dipinjam" // Status langsung diset aktif
+            })
+
+            alert(`Berhasil meminjam buku "${judulBuku}"!`)
+
+            // Opsional: Refresh halaman atau arahkan ke halaman tertentu jika diperlukan
+            // window.location.reload()
+
+        } catch (error) {
+            console.error("Gagal meminjam buku: ", error)
+            alert("Terjadi kesalahan saat memproses peminjaman.")
+        }
+    }
 }
