@@ -162,5 +162,38 @@ export async function tambahBuku() {
 
 // fungsi untuk menampilkan daftar buku secara publik
 export async function daftarBukuPublik() {
+    // ambil snapshot data dari koleksi buku
+    const snapshot = await getDocs(bukuCollection)
 
+    // ambil elemen container buku
+    const container = document.getElementById('container-buku')
+
+    // kosongkan isi container nya
+    container.innerHTML = ""
+
+    // loop setiap dokumen dalam snapshot
+    snapshot.forEach((doc) => {
+        // variabel untuk menyimpan data
+        const data = doc.data()
+        const id = doc.id
+
+        // buat elemen kartu buku
+        const kartu = document.createElement("div")
+        kartu.className = "book-card"
+
+        // buat elemen judul buku
+        const judulBuku = document.createElement("h3")
+        judulBuku.textContent = data.judulBuku
+
+        // buat elemen penulis
+        const penulis = document.createElement("p")
+        penulis.textContent = "Penulis: " + data.penulis
+
+        // tambahkan elemen judul dan penulis ke dalam kartu
+        kartu.appendChild(judulBuku)
+        kartu.appendChild(penulis)
+
+        // tambahkan kartu ke dalam container
+        container.appendChild(kartu)
+    })
 }

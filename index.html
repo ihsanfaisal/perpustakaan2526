@@ -17,9 +17,18 @@
 
       <section>
         <h2>Koleksi Buku Terkini</h2>
-        <div class="book-card">
-          <h3>Filosofi Teras</h3>
-          <p>Penulis: Henry Manampiring</p>
+
+        <div id="container-buku">
+
+          <div class="book-card">
+            <h3>Filosofi Teras</h3>
+            <p>Penulis: Henry Manampiring</p>
+          </div>
+          <div class="book-card">
+            <h3>Filosofi Pintu</h3>
+            <p>Penulis: Henry Manampiring</p>
+          </div>
+
         </div>
       </section>
 
@@ -27,5 +36,12 @@
 
       <a class="btn" href="login.html">Masuk</a>
     </div>
+
+    <script type="module">
+      import { daftarBukuPublik } from './main.js'
+
+      // Tampilkan daftar buku saat halaman dimuat
+      daftarBukuPublik()
+    </script>
   </body>
 </html>
